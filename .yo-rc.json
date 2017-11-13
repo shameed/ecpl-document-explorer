@@ -1,0 +1,14 @@
+{
+  "generator-angular-library": {
+    "githubUsername": "shameed",
+    "githubRepoName": "ecpl-document-explorer",
+    "npmModuleName": "ecpl-document-explorer",
+    "moduleGlobal": "ecplDocumentExplorer",
+    "ngModuleName": "EcplDocumentExplorerModule",
+    "selectorPrefix": "ecpl",
+    "projectTitle": "ecpl document explorer",
+    "projectDescription": "angular2 library for Document explorer and upload",
+    "authorName": "Hameed",
+    "packageManager": "npm"
+  }
+}
