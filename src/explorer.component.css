@@ -1,0 +1,18 @@
+.side-bar{
+    width:25%;
+    float: left;
+}
+
+.window-pane{
+    width:75%;
+    float: left;
+}
+
+.status-bar{
+    width:100%;
+    clear: both;
+}
+
+.panel{
+    margin-bottom:0px;
+}
