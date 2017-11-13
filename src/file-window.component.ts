@@ -71,7 +71,7 @@ export class FileWindowComponent implements OnInit {
   @Input() config: any;
 
   @Input()
-  //uploadedFiles:UploadedFile[];
+  // uploadedFiles:UploadedFile[];
   uploadedFiles: any;
 
   formData: any;
@@ -93,7 +93,7 @@ export class FileWindowComponent implements OnInit {
     } else {
       this.listView = true;
     }
-    //console.log('this.listView', this.listView);
+    // console.log('this.listView', this.listView);
   }
 
   onUploadOutput(output: UploadOutput): void {
@@ -156,11 +156,11 @@ export class FileWindowComponent implements OnInit {
   }
 
   cancelUpload(id: string): void {
-    this.uploadInput.emit({ type: 'cancel', id: id });
+    this.uploadInput.emit({ type: 'cancel', id: '{id}' });
   }
 
   removeFile(id: string): void {
-    this.uploadInput.emit({ type: 'remove', id: id });
+    this.uploadInput.emit({ type: 'remove', id: '{id}' });
   }
 
   removeAllFiles(): void {
@@ -177,9 +177,9 @@ export class FileWindowComponent implements OnInit {
   }
 
   humanizeType(filename: string) {
-    let extn = filename.split('.').pop();
+    const extn = filename.split('.').pop();
     let type = '';
-    //console.log("extn", extn);
+    // console.log("extn", extn);
 
     switch (extn) {
       case 'xlsx':
@@ -209,7 +209,6 @@ export class FileWindowComponent implements OnInit {
         break;
       case 'avi':
       case 'mp4':
-        filename;
       case '3gpp':
       case 'webm':
       case 'flv':
