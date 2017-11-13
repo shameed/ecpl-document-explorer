@@ -1,0 +1,171 @@
+<div class="panel panel-default" *ngIf="config">
+    <!-- Default panel contents -->
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-8">
+                <p>
+                    <strong>{{config.title}}</strong>
+                </p>
+
+            </div>
+            <div class="col-sm-4 text-right">
+                <input type="file" class="btn btn-primary hide" ngFileSelect (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput" #file multiple>
+                <button type="button" class="btn btn-default btn-sm" (click)="file.click()">
+                          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add File(s)
+                  </button>
+                <button type="button" class="btn btn-success btn-sm" (click)="startUpload()">
+                    <span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Start Upload
+                </button>
+                <div class="btn-group btn-group-sm" role="group" aria-label="Small button group" *ngIf="config.viewSwitch">
+                    <button type="button" class="btn btn-default" (click)="onViewChange()" [class.active]="!listView">
+                        <span class="glyphicon glyphicon-th" aria-hidden="true"></span>
+                    </button>
+                    <button type="button" class="btn btn-default" (click)="onViewChange()" [class.active]="listView">
+                            <span class="glyphicon glyphicon-list" aria-hidden="true" ></span>    
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="drop-container panel-body" ngFileDrop (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput" [ngClass]="{ 'is-drop-over': dragOver }">
+        <!-- If grid view -->
+
+        <div class="grid" *ngIf="!listView">
+            <div class="row" class="uploads" *ngIf="files?.length || uploadedFiles?.length">
+                <div class="col-sm-2" *ngFor="let f of files; let i = index;">
+                    <div class="thumbnail">
+                        <a href="javascript:void(0)" title="Yet to be upload" *ngIf="f.progress.data.percentage != 100">
+                            <span class="percentage">{{f.progress.data.percentage}}%</span>
+                            <img src="/assets/icons/file.png" alt="">
+                        </a>
+
+                        <div *ngIf="f.progress.data.percentage == 100">
+                            <ecpl-image-viewer *ngIf="f.type == 'image/png' || f.type == 'image/jpeg' || f.type == 'image/jpg'" imgSrc="https://image.shutterstock.com/display_pic_with_logo/164881702/587008043/stock-photo-a-photo-of-the-road-near-the-dam-with-sunset-scene-587008043.jpg"
+                                imgType="jpg" imgName="Adler" id="hiudshhs">
+                            </ecpl-image-viewer>
+
+                            <ecpl-article-viewer *ngIf="f.type == 'kuba/article'" articleName="Demo Atryicle" [(articleSrc)]="parentText" id="ghdsddjdj"></ecpl-article-viewer>
+
+                            <ecpl-onlyoffice-viewer *ngIf="f.type == 'application/msword' || f.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || f.type == 'application/rtf'" onlyofficeSrc="https://easychair.org/publications/easychair.docx" onlyofficeKey="someUniqueKey"
+                                onlyofficeType="docx" onlyofficeName="Adler.docx" id="hiudshhs"></ecpl-onlyoffice-viewer>
+
+                            <ecpl-pdf-viewer *ngIf="f.type== 'application/pdf'" id="tjdssdj" pdfSrc="http://lazarus.elte.hu/cet/publications/13-meissner2.pdf" pdfName="Architecture Diagram"></ecpl-pdf-viewer>
+                        </div>
+                        <div class="caption">
+                            <small>{{ f.name }}</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-2" *ngFor="let f of uploadedFiles; let i = index;">
+                    <div class="thumbnail">
+                        <div>
+                            <ecpl-image-viewer *ngIf="humanizeType(f.filename) == 'Image file'" [imgSrc]="f.path" [imgType]="fileExtension(f.filename)" [imgName]="f.originalname" [id]="f.id" thumbNail=true>
+                            </ecpl-image-viewer>
+
+                            <ecpl-article-viewer *ngIf="f.type == 'kuba/article'" articleName="Demo Atryicle" [(articleSrc)]="parentText" id="ghdsddjdj"></ecpl-article-viewer>
+
+                            <ecpl-onlyoffice-viewer *ngIf="f.type == 'application/msword' || f.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || f.type == 'application/rtf'" onlyofficeSrc="https://easychair.org/publications/easychair.docx" onlyofficeKey="someUniqueKey"
+                                onlyofficeType="docx" onlyofficeName="Adler.docx" id="hiudshhs"></ecpl-onlyoffice-viewer>
+
+                            <ecpl-pdf-viewer *ngIf="f.type== 'application/pdf'" id="tjdssdj" pdfSrc="http://lazarus.elte.hu/cet/publications/13-meissner2.pdf" pdfName="Architecture Diagram"></ecpl-pdf-viewer>
+                        </div>
+                        <div class="caption">
+                            <small>{{ f.originalname }}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- If list view -->
+        <table class="table table-striped list" *ngIf="listView">
+            <thead>
+                <tr>
+                    <th>File Name</th>
+                    <th>Size</th>
+                    <th>Type</th>
+                    <th>Created By</th>
+                    <th>Created On</th>
+                    <th style="width:15px"> </th>
+                </tr>
+            </thead>
+            <tbody class="uploads" *ngIf="files?.length || uploadedFiles?.length">
+
+                <!-- uploaded Files -->
+                <tr class="file-item" *ngFor="let f of uploadedFiles; let i = index;">
+
+                    <td>
+                        <div class="thumb-sm">
+
+                            <div>
+                                <ecpl-image-viewer *ngIf="humanizeType(f.filename) == 'Image file'" [imgSrc]="f.path" [imgType]="fileExtension(f.filename)" [imgName]="f.originalname" [id]="f.id">
+                                </ecpl-image-viewer>
+
+                                <ecpl-article-viewer *ngIf="f.type == 'kuba/article'" articleName="Demo Atryicle" [(articleSrc)]="parentText" id="ghdsddjdj"></ecpl-article-viewer>
+
+                                <ecpl-onlyoffice-viewer *ngIf="f.type == 'application/msword' || f.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || f.type == 'application/rtf'" onlyofficeSrc="https://easychair.org/publications/easychair.docx" onlyofficeKey="someUniqueKey"
+                                    onlyofficeType="docx" onlyofficeName="Adler.docx" id="hiudshhs"></ecpl-onlyoffice-viewer>
+
+                                <ecpl-pdf-viewer *ngIf="f.type== 'application/pdf'" id="tjdssdj" pdfSrc="http://lazarus.elte.hu/cet/publications/13-meissner2.pdf" pdfName="Architecture Diagram"></ecpl-pdf-viewer>
+                            </div>
+                        </div>
+
+                        {{ f.originalname }}
+                    </td>
+                    <td>
+                        {{humanizeBytes(f.size)}}
+
+                    </td>
+                    <td>{{humanizeType(f.filename)}}</td>
+                    <td>{{f.createdby}}</td>
+                    <td>{{f.createdon}}</td>
+                    <th scope="row">
+                        <a href="javascript:void(0);" (click)="removeExistingFile(f.id)" style="margin-top: 8px; display: inline-block;">
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        </a>
+                    </th>
+                </tr>
+
+                <!-- for new files -->
+                <tr class="file-item" *ngFor="let f of files; let i = index;">
+
+                    <td>
+                        <div class="thumb-sm">
+                            <a href="javascript:void(0)" title="Yet to be upload" *ngIf="f.progress.data.percentage != 100">
+                                <span class="percentage">{{f.progress.data.percentage}}%</span>
+                                <img src="/assets/icons/file.png" alt="">
+                            </a>
+
+                            <div *ngIf="f.progress.data.percentage == 100">
+                                <ecpl-image-viewer *ngIf="f.type == 'image/png' || f.type == 'image/jpeg' || f.type == 'image/jpg'" imgSrc="https://image.shutterstock.com/display_pic_with_logo/164881702/587008043/stock-photo-a-photo-of-the-road-near-the-dam-with-sunset-scene-587008043.jpg"
+                                    imgType="jpg" imgName="Adler" id="hiudshhs">
+                                </ecpl-image-viewer>
+
+                                <ecpl-article-viewer *ngIf="f.type == 'kuba/article'" articleName="Demo Atryicle" [(articleSrc)]="parentText" id="ghdsddjdj"></ecpl-article-viewer>
+
+                                <ecpl-onlyoffice-viewer *ngIf="f.type == 'application/msword' || f.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || f.type == 'application/rtf'" onlyofficeSrc="https://easychair.org/publications/easychair.docx" onlyofficeKey="someUniqueKey"
+                                    onlyofficeType="docx" onlyofficeName="Adler.docx" id="hiudshhs"></ecpl-onlyoffice-viewer>
+
+                                <ecpl-pdf-viewer *ngIf="f.type== 'application/pdf'" id="tjdssdj" pdfSrc="http://lazarus.elte.hu/cet/publications/13-meissner2.pdf" pdfName="Architecture Diagram"></ecpl-pdf-viewer>
+                            </div>
+                        </div>
+
+                        {{ f.name }}
+                    </td>
+                    <td>
+                        {{humanizeBytes(f.size)}}
+                    </td>
+                    <td>{{humanizeType(f.name)}}</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <th scope="row">
+                        <a href="javascript:void(0);" (click)="removeFile(f.id)" style="margin-top: 8px; display: inline-block;">
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        </a>
+                    </th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
