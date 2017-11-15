@@ -30,7 +30,7 @@ export default {
       enforce: 'pre',
       options: {
         emitErrors: true,
-        failOnHint: true
+        failOnHint: false
       }
     }, {
       test: /\.ts$/,
