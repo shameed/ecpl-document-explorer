@@ -1,6 +1,6 @@
 {
     "name": "ecpl-document-explorer",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "angular2 library for Document explorer and upload",
     "main": "./bundles/ecpl-document-explorer.umd.js",
     "module": "./index.js",

@@ -18,7 +18,6 @@ import { UploadedFile } from './interfaces';
             border-radius:0px;
             height:80vh;
             overflow:hidden;
-            scroll:auto; 
             padding-top:0;
             padding-bottom:0;          
         }
@@ -137,8 +136,9 @@ export class FileWindowComponent implements OnInit {
     } else if (output.type === 'done') {
       console.log('Upload done');
       // This will throw error until responce changed as Uploadedfile
-
-      this.uploadedFiles.push(output.file.response[0]);
+      if(output.file && output.file.response.length){
+        this.uploadedFiles.push(output.file.response[0]);
+      }
       this.removeFromFiles(this.files, output.file);
       console.log('nw uploaded files', this.uploadedFiles);
     }
